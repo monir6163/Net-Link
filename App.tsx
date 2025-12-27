@@ -1,35 +1,36 @@
+// Update App.tsx
 import { NavigationContainer } from "@react-navigation/native";
-import { useEffect, useState } from "react";
-import "react-native-gesture-handler"; // MUST BE FIRST
-import { GestureHandlerRootView } from "react-native-gesture-handler"; // Required for Web/Drawer
+import { useState } from "react";
+import "react-native-gesture-handler";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { AuthNavigator } from "./src/Navigation/AuthNavigator"; // Use your Auth Stack
+import { AuthProvider, useAuth } from "./src/Context/AuthContext";
+import { AuthNavigator } from "./src/Navigation/AuthNavigator";
 import { DrawerNavigator } from "./src/Navigation/DrawerNavigator";
 import SplashScreen from "./src/Screens/SplashScreen";
 
-export default function App() {
+function AppContent() {
+  const { isAuthenticated, isLoading } = useAuth();
   const [isAppReady, setIsAppReady] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      // In a real app, check AsyncStorage for a token here
-      setIsAuthenticated(false);
-      setIsAppReady(true);
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, []);
-  if (!isAppReady) {
+  if (!isAppReady || isLoading) {
     return <SplashScreen onAnimationFinish={() => setIsAppReady(true)} />;
   }
 
   return (
+    <NavigationContainer>
+      {isAuthenticated ? <DrawerNavigator /> : <AuthNavigator />}
+    </NavigationContainer>
+  );
+}
+
+export default function App() {
+  return (
     <GestureHandlerRootView className="flex-1">
       <SafeAreaProvider>
-        <NavigationContainer>
-          {isAuthenticated ? <DrawerNavigator /> : <AuthNavigator />}
-        </NavigationContainer>
+        <AuthProvider>
+          <AppContent />
+        </AuthProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

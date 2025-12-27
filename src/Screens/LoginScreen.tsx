@@ -2,6 +2,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useAuth } from "../Context/AuthContext";
 import { AuthStackParamList } from "../Navigation/types";
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
@@ -16,10 +17,20 @@ type Props = {
 const LoginScreen = ({ navigation }: Props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { login } = useAuth();
 
   const handleLogin = async () => {
     console.log({ email, password });
-    // Implement your login logic here
+    // Implement demo login logic here with expo secure store
+    const demoEmail = "user@gmail.com";
+    const demoPassword = "12345";
+
+    if (email === demoEmail && password === demoPassword) {
+      await login("dummy-auth-token");
+      alert("Login successful");
+    } else {
+      alert("Invalid email or password");
+    }
   };
 
   return (
@@ -69,7 +80,7 @@ const LoginScreen = ({ navigation }: Props) => {
           {/* Forgot Password */}
           <TouchableOpacity
             className="mb-6 self-end"
-            // onPress={() => navigation.navigate("ForgotPassword")}
+            onPress={() => navigation.navigate("ForgotPassword")}
           >
             <Text className="text-blue-600 font-semibold text-sm">
               Forgot Password?

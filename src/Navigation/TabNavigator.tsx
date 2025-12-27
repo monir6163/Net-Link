@@ -5,6 +5,7 @@ import { RootTabParamList } from "./types";
 
 // Screens (Imported from your screens folder)
 import HomeScreen from "../Screens/HomeScreen";
+import ProfileScreen from "../Screens/ProfileScreen";
 import SettingsScreen from "../Screens/SettingsScreen";
 import { Colors } from "../Theme/Color";
 
@@ -21,6 +22,8 @@ export const TabNavigator = () => {
             iconName = focused ? "home" : "home-outline";
           else if (route.name === "Settings")
             iconName = focused ? "settings" : "settings-outline";
+          else if (route.name === "Profile")
+            iconName = focused ? "person" : "person-outline";
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -32,6 +35,7 @@ export const TabNavigator = () => {
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
 };
