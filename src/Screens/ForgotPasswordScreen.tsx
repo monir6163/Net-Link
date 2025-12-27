@@ -1,9 +1,7 @@
 import React from "react";
 import { Text, View } from "react-native";
 
-type Props = {};
-
-const ForgotPasswordScreen = (props: Props) => {
+const ForgotPasswordScreen = () => {
   return (
     <View>
       <Text>ForgotPasswordScreen</Text>

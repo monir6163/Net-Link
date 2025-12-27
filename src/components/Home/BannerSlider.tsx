@@ -1,12 +1,10 @@
 import React from "react";
 import { Text, View } from "react-native";
 
-const SettingsScreen = () => {
+export default function BannerSlider() {
   return (
     <View>
-      <Text>SettingsScreen</Text>
+      <Text>BannerSlider</Text>
     </View>
   );
-};
-
-export default SettingsScreen;
+}

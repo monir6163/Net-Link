@@ -1,10 +1,8 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { useAuth } from "../Context/AuthContext";
 
-type Props = {};
-
-const ProfileScreen = (props: Props) => {
+const ProfileScreen = () => {
   const { logout } = useAuth();
   const handleLogout = async () => {
     await logout();
@@ -23,5 +21,3 @@ const ProfileScreen = (props: Props) => {
 };
 
 export default ProfileScreen;
-
-const styles = StyleSheet.create({});

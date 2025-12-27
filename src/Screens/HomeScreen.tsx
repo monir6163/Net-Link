@@ -1,16 +1,12 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import BannerSlider from "../components/Home/BannerSlider";
 
-type Props = {};
-
-const HomeScreen = (props: Props) => {
+const HomeScreen = () => {
   return (
-    <View>
-      <Text>HomeScreen</Text>
-    </View>
+    <>
+      <BannerSlider />
+    </>
   );
 };
 
 export default HomeScreen;
-
-const styles = StyleSheet.create({});
