@@ -252,7 +252,14 @@ export default function PackageList() {
   const { operatorName, operatorImage, operatorId } = route.params;
 
   const [activeTab, setActiveTab] = useState("Wifi");
-  const categories = ["Wifi", "Internet", "Minute", "Bundle", "Special"];
+  const categories = [
+    "Wifi",
+    "Internet",
+    "Minute",
+    "FlexiLoad",
+    "Bundle",
+    "Special",
+  ];
 
   // ফিল্টার করা ডাটা
   const filteredPackages = PACKAGES.filter(
@@ -311,7 +318,7 @@ export default function PackageList() {
           style={{
             position: "absolute",
             right: 20,
-            top: -10,
+            top: -5,
             backgroundColor: item.isPopular ? "#FF9800" : "#4CAF50",
             paddingHorizontal: 10,
             paddingVertical: 4,
@@ -341,7 +348,7 @@ export default function PackageList() {
             ৳{item.price}
           </Text>
           <TouchableOpacity
-            className="bg-blue-600 px-4 py-2 rounded-xl mt-2"
+            className="bg-blue-600 px-4 py-2 rounded-xl mt-2 w-full items-center shadow-lg shadow-blue-200"
             onPress={() => handleBuyPress(item)}
           >
             <Text className="text-white font-bold text-xs">কিনুন</Text>

@@ -8,18 +8,7 @@ export default function BannerSlider() {
   const data = [
     {
       id: "1",
-      image:
-        "https://cdn.pixabay.com/photo/2016/03/26/22/54/sandwich-1281711_1280.jpg",
-    },
-    {
-      id: "2",
-      image:
-        "https://cdn.pixabay.com/photo/2017/11/23/07/47/baby-2972221_1280.jpg",
-    },
-    {
-      id: "3",
-      image:
-        "https://cdn.pixabay.com/photo/2025/06/05/12/25/turtle-9642956_1280.jpg",
+      image: require("../../../assets/img/b1.jpg"),
     },
   ];
   return (
@@ -33,7 +22,7 @@ export default function BannerSlider() {
       scrollAnimationDuration={1000}
       renderItem={({ item }) => (
         <View style={styles.card}>
-          <Image source={{ uri: item.image }} style={styles.image} />
+          <Image source={item.image} style={styles.image} resizeMode="cover" />
         </View>
       )}
     />
