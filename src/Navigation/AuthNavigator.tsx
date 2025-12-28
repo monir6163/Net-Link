@@ -3,6 +3,7 @@ import ForgotPasswordScreen from "../Screens/ForgotPasswordScreen";
 import LoginScreen from "../Screens/LoginScreen";
 import RegisterScreen from "../Screens/RegisterScreen";
 import { AuthStackParamList } from "./types";
+import PackageListScreen from "../Screens/PackageListScreen";
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
 

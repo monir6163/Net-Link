@@ -13,13 +13,15 @@ function AppContent() {
   const { isAuthenticated, isLoading } = useAuth();
   const [isAppReady, setIsAppReady] = useState(false);
 
-  if (!isAppReady || isLoading) {
-    return <SplashScreen onAnimationFinish={() => setIsAppReady(true)} />;
-  }
-
   return (
     <NavigationContainer>
-      {isAuthenticated ? <DrawerNavigator /> : <AuthNavigator />}
+      {!isAppReady || isLoading ? (
+        <SplashScreen onAnimationFinish={() => setIsAppReady(true)} />
+      ) : isAuthenticated ? (
+        <DrawerNavigator />
+      ) : (
+        <AuthNavigator />
+      )}
     </NavigationContainer>
   );
 }

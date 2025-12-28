@@ -4,6 +4,11 @@ export type RootTabParamList = {
   Home: undefined;
   Settings: undefined;
   Profile: undefined;
+  PackageList: {
+    operatorName: string;
+    operatorImage: any;
+    operatorId: string;
+  };
 };
 
 // The Drawer contains the TabNavigator as one of its screens
