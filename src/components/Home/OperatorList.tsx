@@ -16,6 +16,7 @@ export default function OperatorList() {
       image: require("../../../assets/img/gp.png"),
       name: "Grameenphone",
       shortName: "GP",
+      title: "Offers",
       color: "#00A1E0",
     },
     {
@@ -23,6 +24,7 @@ export default function OperatorList() {
       image: require("../../../assets/img/bl.png"),
       name: "Banglalink",
       shortName: "BL",
+      title: "Offers",
       color: "#FF6B00",
     },
     {
@@ -30,6 +32,7 @@ export default function OperatorList() {
       image: require("../../../assets/img/air.png"),
       name: "Airtel",
       shortName: "Airtel",
+      title: "Offers",
       color: "#E60000",
     },
     {
@@ -37,6 +40,7 @@ export default function OperatorList() {
       image: require("../../../assets/img/robi.png"),
       name: "Robi",
       shortName: "Robi",
+      title: "Offers",
       color: "#E60028",
     },
     {
@@ -44,7 +48,16 @@ export default function OperatorList() {
       image: require("../../../assets/img/tel.png"),
       name: "Teletalk",
       shortName: "TT",
-      color: "#00A859",
+      title: "Offers",
+      color: "#008000",
+    },
+    {
+      id: "6",
+      image: require("../../../assets/img/skitto.png"),
+      name: "Skitto",
+      shortName: "Skitto",
+      title: "Offers",
+      color: "#FF5733",
     },
   ];
 
@@ -93,7 +106,7 @@ export default function OperatorList() {
                   className="text-xs font-bold text-center mb-1"
                   style={{ color: operator.color }}
                 >
-                  {operator.shortName}
+                  {operator.shortName} {operator.title}
                 </Text>
                 <View className="flex-row items-center">
                   <Text className="text-[10px] text-gray-500 mr-1">View</Text>

@@ -1,6 +1,10 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import React, { useState } from "react";
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
+import React, { useCallback, useState } from "react";
 import {
   FlatList,
   Image,
@@ -16,9 +20,12 @@ import {
 
 // স্যাম্পল ডাটা (এটি আপনি API থেকে নিতে পারেন)
 const PACKAGES = [
+  // ================= Grameenphone =================
   {
     id: "1",
     type: "Internet",
+    operatorId: "1",
+    operatorName: "Grameenphone",
     title: "10GB Regular Data",
     validity: "30 Days",
     price: "499",
@@ -28,6 +35,8 @@ const PACKAGES = [
   {
     id: "2",
     type: "Minute",
+    operatorId: "1",
+    operatorName: "Grameenphone",
     title: "500 Minutes Local",
     validity: "30 Days",
     price: "307",
@@ -35,22 +44,205 @@ const PACKAGES = [
     note: "Any Local Number",
   },
   {
-    id: "3",
-    type: "Bundle",
-    title: "Combo 15GB + 400 Min",
+    id: "7",
+    type: "Wifi",
+    operatorId: "1",
+    operatorName: "Grameenphone",
+    title: "5GB Wifi Data",
     validity: "30 Days",
-    price: "699",
+    price: "299",
+    volume: "5GB",
+    isPopular: true,
+    note: "For Home Wifi Use",
+  },
+
+  // ================= Robi =================
+  {
+    id: "8",
+    type: "Internet",
+    operatorId: "2",
+    operatorName: "Robi",
+    title: "8GB Regular Data",
+    validity: "30 Days",
+    price: "398",
+    volume: "8GB",
+    note: "All Apps Supported",
+  },
+  {
+    id: "9",
+    type: "Minute",
+    operatorId: "2",
+    operatorName: "Robi",
+    title: "300 Minutes",
+    validity: "30 Days",
+    price: "249",
+    volume: "300 Min",
+    note: "Any Local Number",
+  },
+  {
+    id: "10",
+    type: "Bundle",
+    operatorId: "2",
+    operatorName: "Robi",
+    title: "10GB + 200 Min Combo",
+    validity: "30 Days",
+    price: "599",
     volume: "Bundle",
-    note: "Best Seller",
+    isPopular: true,
+    note: "Best Value",
+  },
+  {
+    id: "3",
+    type: "Wifi",
+    operatorId: "2",
+    operatorName: "Robi",
+    title: "4GB Wifi Data",
+    validity: "30 Days",
+    price: "249",
+    volume: "4GB",
+    note: "For Home Wifi Use",
+  },
+
+  // ================= Airtel =================
+  {
+    id: "11",
+    type: "Internet",
+    operatorId: "3",
+    operatorName: "Airtel",
+    title: "6GB Internet Pack",
+    validity: "15 Days",
+    price: "299",
+    volume: "6GB",
+    note: "Regular Data",
+  },
+  {
+    id: "12",
+    type: "Special",
+    operatorId: "3",
+    operatorName: "Airtel",
+    title: "Night 10GB",
+    validity: "7 Days",
+    price: "199",
+    volume: "10GB",
+    note: "12AM - 6AM",
   },
   {
     id: "4",
+    type: "Wifi",
+    operatorId: "3",
+    operatorName: "Airtel",
+    title: "3GB Wifi Data",
+    validity: "30 Days",
+    price: "199",
+    volume: "3GB",
+    note: "For Home Wifi Use",
+  },
+
+  // ================= Banglalink =================
+  {
+    id: "13",
     type: "Internet",
-    title: "2GB Social Pack",
-    validity: "7 Days",
-    price: "54",
+    operatorId: "4",
+    operatorName: "Banglalink",
+    title: "12GB Data Pack",
+    validity: "30 Days",
+    price: "549",
+    volume: "12GB",
+    note: "Free Toffee App",
+  },
+  {
+    id: "14",
+    type: "Minute",
+    operatorId: "4",
+    operatorName: "Banglalink",
+    title: "1000 Minutes",
+    validity: "30 Days",
+    price: "499",
+    volume: "1000 Min",
+    isPopular: true,
+    note: "BL & Other Operators",
+  },
+  {
+    id: "5",
+    type: "Wifi",
+    operatorId: "4",
+    operatorName: "Banglalink",
+    title: "6GB Wifi Data",
+    validity: "30 Days",
+    price: "349",
+    volume: "6GB",
+    isBest: true,
+    note: "For Home Wifi Use",
+  },
+
+  // ================= Teletalk =================
+  {
+    id: "15",
+    type: "Internet",
+    operatorId: "5",
+    operatorName: "Teletalk",
+    title: "5GB Data Pack",
+    validity: "30 Days",
+    price: "300",
+    volume: "5GB",
+    note: "Government Operator",
+  },
+  {
+    id: "16",
+    type: "Bundle",
+    operatorId: "5",
+    operatorName: "Teletalk",
+    title: "3GB + 150 Min",
+    validity: "15 Days",
+    price: "249",
+    volume: "Bundle",
+    note: "Budget Combo",
+  },
+  {
+    id: "6",
+    type: "Wifi",
+    operatorId: "5",
+    operatorName: "Teletalk",
+    title: "2GB Wifi Data",
+    validity: "30 Days",
+    price: "199",
     volume: "2GB",
-    note: "FB & WhatsApp only",
+    note: "For Home Wifi Use",
+  },
+
+  // ================= Skitto =================
+  {
+    id: "17",
+    type: "Internet",
+    operatorId: "6",
+    operatorName: "Skitto",
+    title: "7GB Data Pack",
+    validity: "30 Days",
+    price: "399",
+    volume: "7GB",
+    note: "All Apps Supported",
+  },
+  {
+    id: "18",
+    type: "Special",
+    operatorId: "6",
+    operatorName: "Skitto",
+    title: "Social Media Pack 5GB",
+    validity: "15 Days",
+    price: "199",
+    volume: "5GB",
+    note: "Facebook, WhatsApp, YouTube",
+  },
+  {
+    id: "19",
+    type: "Wifi",
+    operatorId: "6",
+    operatorName: "Skitto",
+    title: "3GB Wifi Data",
+    validity: "30 Days",
+    price: "249",
+    volume: "3GB",
+    note: "For Home Wifi Use",
   },
 ];
 
@@ -59,15 +251,19 @@ export default function PackageList() {
   const navigation = useNavigation();
   const { operatorName, operatorImage, operatorId } = route.params;
 
-  const [activeTab, setActiveTab] = useState("Internet");
-  const categories = ["Internet", "Minute", "Bundle", "Special"];
+  const [activeTab, setActiveTab] = useState("Wifi");
+  const categories = ["Wifi", "Internet", "Minute", "Bundle", "Special"];
 
   // ফিল্টার করা ডাটা
-  const filteredPackages = PACKAGES.filter((pkg) => pkg.type === activeTab);
+  const filteredPackages = PACKAGES.filter(
+    (pkg) => pkg.operatorId === operatorId && pkg.type === activeTab
+  );
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState<any>(null);
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [name, setName] = useState("");
+  const [wifiUserId, setWifiUserId] = useState("");
 
   const handleBuyPress = (pkg: any) => {
     setSelectedPackage(pkg);
@@ -79,10 +275,30 @@ export default function PackageList() {
       alert("অনুগ্রহ করে সঠিক ১১ ডিজিটের নম্বর দিন");
       return;
     }
+    if (selectedPackage?.type === "Wifi") {
+      if (!name.trim()) {
+        alert("অনুগ্রহ করে আপনার নাম লিখুন");
+        return;
+      }
+      if (!wifiUserId.trim()) {
+        alert("অনুগ্রহ করে WiFi ইউজার আইডি লিখুন");
+        return;
+      }
+    }
     // এখানে আপনার পেমেন্ট বা রিচার্জ লজিক আসবে
-    alert(`${selectedPackage.title} কেনা হয়েছে ${phoneNumber} নম্বরে!`);
+    alert(`${selectedPackage.title} কেনা হয়েছে ${phoneNumber} নম্বরে!`);
     setIsModalVisible(false);
+    setPhoneNumber("");
+    setName("");
+    setWifiUserId("");
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      setActiveTab("Wifi");
+      return () => {};
+    }, [])
+  );
 
   const renderPackageItem = ({ item }: { item: any }) => (
     <TouchableOpacity
@@ -90,6 +306,24 @@ export default function PackageList() {
       className="bg-white mx-4 mb-4 rounded-3xl p-5 border border-gray-100 shadow-sm"
       style={styles.cardShadow}
     >
+      {(item.isPopular || item.isBest) && (
+        <View
+          style={{
+            position: "absolute",
+            right: 20,
+            top: -10,
+            backgroundColor: item.isPopular ? "#FF9800" : "#4CAF50",
+            paddingHorizontal: 10,
+            paddingVertical: 4,
+            borderRadius: 8,
+            zIndex: 10,
+          }}
+        >
+          <Text style={{ color: "white", fontSize: 9, fontWeight: "bold" }}>
+            {item.isPopular ? "POPULAR" : "BEST OFFER"}
+          </Text>
+        </View>
+      )}
       <View className="flex-row justify-between items-start">
         <View className="flex-1">
           <View className="bg-blue-50 self-start px-3 py-1 rounded-full mb-2">
@@ -216,7 +450,45 @@ export default function PackageList() {
                 </Text>
               </View>
             )}
+            {selectedPackage?.type === "Wifi" && (
+              <View className="mb-4">
+                <View className="bg-amber-50 p-4 rounded-2xl mb-4 border border-amber-200">
+                  <View className="flex-row items-center mb-1">
+                    <Ionicons
+                      name="information-circle"
+                      size={18}
+                      color="#F59E0B"
+                    />
+                    <Text className="text-amber-700 font-bold ml-2">
+                      WiFi প্যাকেজ
+                    </Text>
+                  </View>
+                  <Text className="text-amber-600 text-xs">
+                    এই প্যাকেজটি শুধুমাত্র হোম ওয়াইফাই ব্যবহারের জন্য।
+                  </Text>
+                </View>
 
+                <Text className="text-gray-600 font-medium mb-2">
+                  আপনার নাম
+                </Text>
+                <TextInput
+                  placeholder="পূর্ণ নাম লিখুন"
+                  value={name}
+                  onChangeText={setName}
+                  className="bg-gray-100 p-4 rounded-2xl text-base text-gray-800 border border-gray-200 mb-4"
+                />
+
+                <Text className="text-gray-600 font-medium mb-2">
+                  WiFi ইউজার আইডি
+                </Text>
+                <TextInput
+                  placeholder="WiFi User ID লিখুন"
+                  value={wifiUserId}
+                  onChangeText={setWifiUserId}
+                  className="bg-gray-100 p-4 rounded-2xl text-base text-gray-800 border border-gray-200"
+                />
+              </View>
+            )}
             <Text className="text-gray-600 font-medium mb-2">
               মোবাইল নম্বর লিখুন
             </Text>
